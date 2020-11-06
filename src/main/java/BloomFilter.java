@@ -36,7 +36,7 @@ public class BloomFilter {
 
     public void add(String element) {
         for (HashFunction hashFunction : hashesList) {
-            int index = hashFunction.getHash(element);
+            int index = hashFunction.getHash(element, byteArray.length);
             byteArray[index] = 1;
         }
     }
@@ -44,7 +44,7 @@ public class BloomFilter {
     public boolean contains(String element) {
         boolean result = true;
         for (HashFunction hashFunction : hashesList) {
-            int index = hashFunction.getHash(element);
+            int index = hashFunction.getHash(element, byteArray.length);
             result &= byteArray[index] == 1;
         }
         return result;
@@ -66,17 +66,5 @@ public class BloomFilter {
         return errorProbability;
     }
 
-    public class HashFunction {
-
-        private final int seed;
-
-        HashFunction(int seed) {
-            this.seed = seed;
-        }
-
-        public int getHash(String element) {
-            return (element.hashCode() & 0xfffffff / seed) % byteArray.length;
-        }
-    }
 
 }
