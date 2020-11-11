@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class BloomFilterTest {
 
     private static final int elementsAmount = 5;
-    public static final double errorProbability = 0.5;
+    public static final double errorProbability = 0.01;
 
     BloomFilter bloomFilter = new BloomFilter(elementsAmount, errorProbability);
 
@@ -18,14 +18,14 @@ class BloomFilterTest {
     void getOptimalSize() {
         int optimalSize = bloomFilter.getByteArray().length;
         logger.log(Level.INFO, String.format("Optimal size per %d with %.2f%% for error: %d", elementsAmount, errorProbability * 100, optimalSize));
-        //assertEquals(9585, optimalSize);
+        assertEquals(48, optimalSize);
     }
 
     @Test
     void getHashFuncAmount() {
         int hashFuncAmount = bloomFilter.getHashFuncAmount();
         logger.log(Level.INFO, String.format("Optimal hash func amount per %d with %.2f%% for error: %d", elementsAmount, errorProbability * 100, hashFuncAmount));
-        //assertEquals(6, hashFuncAmount);
+        assertEquals(6, hashFuncAmount);
     }
 
 
