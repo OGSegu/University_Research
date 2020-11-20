@@ -1,56 +1,76 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Objects;
 
-public class HashTable <T> {
+public class HashTable {
 
-    private int maxSize = 100;
+    private String[] array;
 
-    private List<T> arrayList = new ArrayList<>(maxSize);
+    private int size;
+    private float loadFactor = 0;
 
-    {
-        for (int i = 0; i < maxSize; i++)
-            arrayList.add(null);
+    public HashTable() {
+        this(16);
     }
 
-    private final HashFunction hashFunction = new HashFunction(2020);
-
-
-    HashTable() {
-
-    }
-
-    HashTable (int maxSize) {
-        this.maxSize = maxSize;
-    }
-
-    public void put(HashEntry<T> entry) {
-        int index = hashFunction.getHash(entry.key, maxSize);
-        arrayList.set(index, entry.value);
-    }
-
-    public T getValue(String key) {
-        int index = hashFunction.getHash(key, maxSize);
-        return arrayList.get(index) != null ? arrayList.get(index) : null;
+    public HashTable(int initialCapacity) {
+        this.array = new String[initialCapacity];
     }
 
 
-    public static class HashEntry <T> {
+    public String get(String key) {
+        int index = hash(key);
+        return array[index];
+    }
 
-        private final String key;
-        private T value;
+    public boolean containsKey(String key) {
+        return get(key) != null;
+    }
 
-        HashEntry(String key, T value) {
-            this.key = key;
-            this.value = value;
+
+    public void put(String key, String value) {
+        if (loadFactor > 0.75F)
+            resize();
+        int index = hash(key);
+        if (array[index] == null)
+            size++;
+        array[index] = value;
+        loadFactor = size / (float) array.length;
+    }
+
+
+    public String remove(String key) {
+        String removedElement = get(key);
+        if (removedElement == null)
+            return null;
+        int index = hash(key);
+        array[index] = null;
+        size--;
+        return removedElement;
+    }
+
+
+    public int size() {
+        return size;
+    }
+
+
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
+    private void resize() {
+        String[] newArray = new String[size * 2];
+        String[] oldArray = array.clone();
+        this.array = newArray;
+        for (String element : oldArray) {
+            if (element == null)
+                continue;
+            int newIndex = hash(element);
+            array[newIndex] = element;
         }
+    }
 
-        public String getKey() {
-            return key;
-        }
-
-        public T getValue() {
-            return value;
-        }
+    private int hash(String key) {
+        return Objects.hashCode(key) % array.length;
     }
 
 }
