@@ -2,15 +2,15 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class HashTableTest {
+class HashMapNodeTest {
 
-    HashTable newTable() {
-        return new HashTable();
+    HashMapNode<String, String> newTable() {
+        return new HashMapNode();
     }
 
     @Test
     void emptyTable() {
-        HashTable table = newTable();
+        HashMapNode<String, String> table = newTable();
         assertNull(table.get(""));
         assertNull(table.get("some key"));
         assertEquals(0, table.size());
@@ -19,7 +19,7 @@ class HashTableTest {
 
     @Test
     void put() {
-        HashTable table = newTable();
+        HashMapNode<String, String> table = newTable();
 
         int size = 0;
         assertEquals(table.size(), size);
@@ -53,8 +53,8 @@ class HashTableTest {
 
     @Test
     void remove() {
-        HashTable table = newTable();
-        assertNull(table.remove("case when HashTable is empty"));
+        HashMapNode<String, String> table = newTable();
+        assertNull(table.remove("case when HashMapNode is empty"));
         assertTrue(table.isEmpty());
 
         table.put("testStringKey3", "testStringValue3");
@@ -101,7 +101,7 @@ class HashTableTest {
 
     @Test
     void contains() {
-        HashTable table = newTable();
+        HashMapNode<String, String> table = newTable();
 
         assertFalse(table.containsKey("testStringKey"));
         assertFalse(table.containsKey("testStringKey1"));
@@ -125,7 +125,7 @@ class HashTableTest {
 
     @Test
     void empty() {
-        HashTable table = newTable();
+        HashMapNode<String, String> table = newTable();
 
         assertTrue(table.isEmpty());
 
@@ -144,7 +144,7 @@ class HashTableTest {
 
     @Test
     void replace() {
-        HashTable table = newTable();
+        HashMapNode<String, String> table = newTable();
 
         assertNull(table.get("1"));
 
