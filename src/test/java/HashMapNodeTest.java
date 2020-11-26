@@ -1,3 +1,4 @@
+import hashtable.HashMapNode;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -54,7 +55,7 @@ class HashMapNodeTest {
     @Test
     void remove() {
         HashMapNode<String, String> table = newTable();
-        assertNull(table.remove("case when HashMapNode is empty"));
+        assertNull(table.remove("case when hashtable.HashMapNode is empty"));
         assertTrue(table.isEmpty());
 
         table.put("testStringKey3", "testStringValue3");

@@ -1,3 +1,5 @@
+package bloomfilter;
+
 public class HashFunction {
 
     private final int seed;

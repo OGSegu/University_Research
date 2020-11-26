@@ -1,3 +1,5 @@
+package bloomfilter;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -10,7 +12,7 @@ public class BloomFilter {
     private final int hashFuncAmount;
     public final double errorProbability;
 
-    BloomFilter(int elementsAmount, double errorProbability) {
+    public BloomFilter(int elementsAmount, double errorProbability) {
         if (elementsAmount < 1)
             throw new IllegalArgumentException();
         this.errorProbability = errorProbability;

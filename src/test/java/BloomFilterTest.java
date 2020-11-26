@@ -1,3 +1,4 @@
+import bloomfilter.BloomFilter;
 import org.junit.jupiter.api.Test;
 
 import java.util.logging.Level;
