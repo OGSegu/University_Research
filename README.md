@@ -1,3 +1,3 @@
 # University Research
 
-Bloom filter and hash table researching
+Bloom filter and hash table research
