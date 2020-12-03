@@ -1,17 +1,50 @@
 import hashtable.HashMapNode;
+import hashtable.HashTable;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.Test;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class HashMapNodeTest {
+class HashTableBaseTest {
 
-    HashMapNode<String, String> newTable() {
-        return new HashMapNode();
+
+    // Special not comparable object
+    static class Key {
+        final String value;
+
+        public Key(String value) {
+            this.value = value;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Key key = (Key) o;
+            return Objects.equals(value, key.value);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(value);
+        }
+    }
+
+    HashTable<String, String> newTable() {
+        return new HashMapNode<>();
+    }
+
+    HashTable<Key, String> newStrangeKeyTable() {
+        return new HashMapNode<>();
     }
 
     @Test
     void emptyTable() {
-        HashMapNode<String, String> table = newTable();
+        HashTable<String, String> table = newTable();
         assertNull(table.get(""));
         assertNull(table.get("some key"));
         assertEquals(0, table.size());
@@ -20,7 +53,7 @@ class HashMapNodeTest {
 
     @Test
     void put() {
-        HashMapNode<String, String> table = newTable();
+        HashTable<String, String> table = newTable();
 
         int size = 0;
         assertEquals(table.size(), size);
@@ -54,8 +87,8 @@ class HashMapNodeTest {
 
     @Test
     void remove() {
-        HashMapNode<String, String> table = newTable();
-        assertNull(table.remove("case when hashtable.HashMapNode is empty"));
+        HashTable<String, String> table = newTable();
+        assertNull(table.remove("case when HashTable is empty"));
         assertTrue(table.isEmpty());
 
         table.put("testStringKey3", "testStringValue3");
@@ -102,7 +135,7 @@ class HashMapNodeTest {
 
     @Test
     void contains() {
-        HashMapNode<String, String> table = newTable();
+        HashTable<String, String> table = newTable();
 
         assertFalse(table.containsKey("testStringKey"));
         assertFalse(table.containsKey("testStringKey1"));
@@ -126,7 +159,7 @@ class HashMapNodeTest {
 
     @Test
     void empty() {
-        HashMapNode<String, String> table = newTable();
+        HashTable<String, String> table = newTable();
 
         assertTrue(table.isEmpty());
 
@@ -145,7 +178,7 @@ class HashMapNodeTest {
 
     @Test
     void replace() {
-        HashMapNode<String, String> table = newTable();
+        HashTable<String, String> table = newTable();
 
         assertNull(table.get("1"));
 
@@ -161,5 +194,60 @@ class HashMapNodeTest {
         table.put("7", "testStringValue5");
         assertEquals(table.get("7"), "testStringValue5");
         assertEquals(table.get("1"), "testStringValue2");
+    }
+
+    @Test
+    void equalsUsed() {
+        HashTable<String, String> table = newTable();
+
+        assertNull(table.get("1"));
+
+        table.put(new String("1"), "testStringValue3");
+        assertEquals(table.get(new String("1")), "testStringValue3");
+
+        table.put(new String("1"), "testStringValue4");
+        assertEquals(table.get("1"), "testStringValue4");
+
+        table.put(new String("1"), "testStringValue2");
+        assertEquals(table.get(new String("1")), "testStringValue2");
+
+        table.put(new String("7"), "testStringValue5");
+        assertEquals(table.get(new String("7")), "testStringValue5");
+        assertEquals(table.get(new String("1")), "testStringValue2");
+
+        table.remove(new String("7"));
+        assertNull(table.get(new String("7")));
+    }
+
+    @Test
+    void notComparableKey() {
+        HashTable<Key, String> table = newStrangeKeyTable();
+        HashMap<Key, String> reference = new HashMap<>();
+        for (int i = 0; i < 10000; i++) {
+            Key key = new Key(RandomStringUtils.random(5));
+            String value = RandomStringUtils.random(100);
+            table.put(key, value);
+            reference.put(key, value);
+        }
+        assertEquals(reference.size(), table.size());
+        for (Map.Entry<Key, String> entry: reference.entrySet()) {
+            assertEquals(entry.getValue(), table.get(new Key(entry.getKey().value)));
+        }
+    }
+
+    @Test
+    void manyCollisions() {
+        HashTable<Key, String> table = newStrangeKeyTable();
+        HashMap<Key, String> reference = new HashMap<>();
+        Key key = new Key("1");
+        for (int i = 0; i < 10000; i++) {
+            String value = RandomStringUtils.random(100);
+            table.put(key, value);
+            reference.put(key, value);
+        }
+        assertEquals(reference.size(), table.size());
+        for (Map.Entry<Key, String> entry: reference.entrySet()) {
+            assertEquals(entry.getValue(), table.get(new Key(entry.getKey().value)));
+        }
     }
 }
