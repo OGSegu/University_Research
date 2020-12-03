@@ -19,6 +19,8 @@ jobs:
       run: ./gradlew check
     - name: Jacoco report
       run: ./gradlew build jacocoTestReport
+    - name: Build with Gradle
+      run: ./gradlew build
     - name: Code Cov
       run: bash <(curl -s https://codecov.io/bash)
    
