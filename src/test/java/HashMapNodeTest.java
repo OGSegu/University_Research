@@ -9,7 +9,7 @@ import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class HashTableBaseTest {
+class HashMapNodeTest {
 
 
     // Special not comparable object
@@ -62,27 +62,27 @@ class HashTableBaseTest {
         table.put("testStringKey1", "testStringValue1");
 
         assertEquals(table.size(), ++size);
-        assertEquals(table.get("testStringKey1"), "testStringValue1");
+        assertEquals("testStringValue1", table.get("testStringKey1"));
 
         table.put("testStringKey2", "testStringValue2");
 
         assertEquals(table.size(), ++size);
-        assertEquals(table.get("testStringKey2"), "testStringValue2");
+        assertEquals("testStringValue2", table.get("testStringKey2"));
 
         table.put("testStringKey2", "case with same value");
 
         assertEquals(table.size(), size);
-        assertEquals(table.get("testStringKey2"), "case with same value");
+        assertEquals("case with same value", table.get("testStringKey2"));
 
         table.put("testStringKey3", "testStringValue3");
 
         assertEquals(table.size(), ++size);
-        assertEquals(table.get("testStringKey3"), "testStringValue3");
+        assertEquals("testStringValue3", table.get("testStringKey3"));
 
         table.put("testStringKey", "testStringValue");
 
         assertEquals(table.size(), ++size);
-        assertEquals(table.get("testStringKey"), "testStringValue");
+        assertEquals("testStringValue", table.get("testStringKey"));
     }
 
     @Test
@@ -101,11 +101,11 @@ class HashTableBaseTest {
         assertFalse(table.isEmpty());
         int size = table.size();
 
-        assertEquals(table.remove("testStringKey4"), "testStringValue4");
+        assertEquals("testStringValue4", table.remove("testStringKey4"));
         assertEquals(table.size(), --size);
         assertFalse(table.containsKey("testStringKey4"));
 
-        assertEquals(table.remove("testStringKey1"), "testStringValue1");
+        assertEquals("testStringValue1", table.remove("testStringKey1"));
         assertEquals(table.size(), --size);
         assertFalse(table.containsKey("testStringKey1"));
 
@@ -114,19 +114,19 @@ class HashTableBaseTest {
         assertFalse(table.isEmpty());
         assertFalse(table.containsKey("testStringKey1"));
 
-        assertEquals(table.remove("testStringKey3"), "testStringValue3");
+        assertEquals("testStringValue3", table.remove("testStringKey3"));
         assertEquals(table.size(), --size);
         assertFalse(table.containsKey("testStringKey3"));
 
-        assertEquals(table.remove("testStringKey0"), "testStringValue0");
+        assertEquals("testStringValue0", table.remove("testStringKey0"));
         assertEquals(table.size(), --size);
         assertFalse(table.containsKey("testStringKey0"));
 
-        assertEquals(table.remove("testStringKey2"), "testStringValue2");
+        assertEquals("testStringValue2", table.remove("testStringKey2"));
         assertEquals(table.size(), --size);
         assertFalse(table.containsKey("testStringKey2"));
 
-        assertEquals(table.remove("testStringKey5"), "testStringValue5");
+        assertEquals("testStringValue5", table.remove("testStringKey5"));
         assertEquals(table.size(), --size);
         assertFalse(table.containsKey("testStringKey5"));
 
@@ -183,17 +183,17 @@ class HashTableBaseTest {
         assertNull(table.get("1"));
 
         table.put("1", "testStringValue3");
-        assertEquals(table.get("1"), "testStringValue3");
+        assertEquals("testStringValue3", table.get("1"));
 
         table.put("1", "testStringValue4");
-        assertEquals(table.get("1"), "testStringValue4");
+        assertEquals("testStringValue4", table.get("1"));
 
         table.put("1", "testStringValue2");
-        assertEquals(table.get("1"), "testStringValue2");
+        assertEquals("testStringValue2", table.get("1"));
 
         table.put("7", "testStringValue5");
-        assertEquals(table.get("7"), "testStringValue5");
-        assertEquals(table.get("1"), "testStringValue2");
+        assertEquals("testStringValue5", table.get("7"));
+        assertEquals("testStringValue2", table.get("1"));
     }
 
     @Test
@@ -203,17 +203,17 @@ class HashTableBaseTest {
         assertNull(table.get("1"));
 
         table.put(new String("1"), "testStringValue3");
-        assertEquals(table.get(new String("1")), "testStringValue3");
+        assertEquals("testStringValue3", table.get(new String("1")));
 
         table.put(new String("1"), "testStringValue4");
-        assertEquals(table.get("1"), "testStringValue4");
+        assertEquals("testStringValue4", table.get("1"));
 
         table.put(new String("1"), "testStringValue2");
-        assertEquals(table.get(new String("1")), "testStringValue2");
+        assertEquals("testStringValue2", table.get(new String("1")));
 
         table.put(new String("7"), "testStringValue5");
-        assertEquals(table.get(new String("7")), "testStringValue5");
-        assertEquals(table.get(new String("1")), "testStringValue2");
+        assertEquals("testStringValue5", table.get(new String("7")));
+        assertEquals("testStringValue2", table.get(new String("1")));
 
         table.remove(new String("7"));
         assertNull(table.get(new String("7")));

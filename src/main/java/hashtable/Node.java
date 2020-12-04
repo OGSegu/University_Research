@@ -41,7 +41,7 @@ public class Node<Key, Value> implements HashElement {
 
     @Override
     public String toString() {
-        return "hashtable.Node{" +
+        return "Node{" +
                 "key=" + key +
                 ", value=" + value +
                 ", next=" + next +

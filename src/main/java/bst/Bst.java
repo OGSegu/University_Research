@@ -1,4 +1,6 @@
-package hashtable;
+package bst;
+
+import hashtable.HashElement;
 
 public interface Bst<Key, Value> extends HashElement {
 

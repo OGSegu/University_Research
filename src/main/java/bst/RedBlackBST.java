@@ -1,4 +1,4 @@
-package hashtable;
+package bst;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -16,7 +16,7 @@ public class RedBlackBST<Key, Value>
 
     int size = 0;
 
-    class Node {
+    public class Node {
         private Key key;
         private Value value;
         private Node left;
@@ -282,7 +282,7 @@ public class RedBlackBST<Key, Value>
         return new BinarySearchTreeIterator();
     }
 
-    class BinarySearchTreeIterator implements Iterator {
+    public class BinarySearchTreeIterator implements Iterator {
 
         Deque<Node> stack = new ArrayDeque<>();
         Node current = null;

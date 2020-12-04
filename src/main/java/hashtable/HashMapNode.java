@@ -1,5 +1,8 @@
 package hashtable;
 
+import bst.Bst;
+import bst.RedBlackBST;
+
 import java.util.Objects;
 
 public class HashMapNode<Key, Value> implements HashTable<Key, Value> {
