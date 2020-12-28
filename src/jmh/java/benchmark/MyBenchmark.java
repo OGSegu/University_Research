@@ -3,8 +3,8 @@ package benchmark;
 import hashtable.HashMapNode;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openjdk.jmh.annotations.*;
+import org.openjdk.jmh.infra.Blackhole;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -83,9 +83,9 @@ public class MyBenchmark {
         @BenchmarkMode(Mode.AverageTime)
         @OutputTimeUnit(value = MILLISECONDS)
         @Measurement(iterations = 3)
-        public void getDefault() {
+        public void getDefault(Blackhole blackhole) {
             for (int i = 0; i < 50000; i++) {
-                defaultMap.get(array[i]);
+                blackhole.consume(defaultMap.get(array[i]));
             }
         }
 
@@ -96,9 +96,9 @@ public class MyBenchmark {
         @BenchmarkMode(Mode.AverageTime)
         @OutputTimeUnit(value = MILLISECONDS)
         @Measurement(iterations = 3)
-        public void getCustom() {
+        public void getCustom(Blackhole blackhole) {
             for (int i = 0; i < 50000; i++) {
-                customMap.get(array[i]);
+                blackhole.consume(customMap.get(array[i]));
             }
         }
     }
