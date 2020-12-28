@@ -9,6 +9,6 @@ public class HashFunction {
     }
 
     public int getHash(String element, int length) {
-        return ((element.hashCode() & 0x7FFFFFFF) / seed) % length;
+        return (element.hashCode() & 0x7FFFFFFF / seed) % length;
     }
 }

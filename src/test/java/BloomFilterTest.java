@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class BloomFilterTest {
 
     private static final int elementsAmount = 5;
-    public static final double errorProbability = 0.01;
+    public static final double errorProbability = 0.5;
 
     BloomFilter bloomFilter = new BloomFilter(elementsAmount, errorProbability);
 

@@ -7,7 +7,7 @@ import java.util.Objects;
 
 public class HashMapNode<Key, Value> implements HashTable<Key, Value> {
 
-    private HashElement[] array;
+    private HashElement<Key, Value>[] array;
 
     private int size;
     private float loadFactor = 0;
@@ -43,12 +43,12 @@ public class HashMapNode<Key, Value> implements HashTable<Key, Value> {
     public void put(Key key, Value value) {
         if (loadFactor > 0.75F)
             resize();
-        putIgnore(key, value);
+        putIgnoreLoadFactor(key, value);
     }
 
-    private void putIgnore(Key key, Value value) {
+    private void putIgnoreLoadFactor(Key key, Value value) {
         int index = hash(key);
-        HashElement hashElement = array[index];
+        HashElement<Key, Value> hashElement = array[index];
         if (hashElement == null) {
             array[index] = new Node<>(key, value);
             size++;
@@ -73,7 +73,9 @@ public class HashMapNode<Key, Value> implements HashTable<Key, Value> {
                 iterateNode = iterateNode.getNext();
                 depth++;
             }
-            iterateNode.setNext(addNode);
+            if (iterateNode != null) {
+                iterateNode.setNext(addNode);
+            }
             size++;
             depth++;
             if (depth > depthThreshold) {
@@ -95,7 +97,7 @@ public class HashMapNode<Key, Value> implements HashTable<Key, Value> {
     @Override
     public Value remove(Key key) {
         int index = hash(key);
-        HashElement hashElement = array[index];
+        HashElement<Key, Value> hashElement = array[index];
         if (hashElement == null)
             return null;
         if (hashElement instanceof Bst) {
@@ -136,10 +138,10 @@ public class HashMapNode<Key, Value> implements HashTable<Key, Value> {
 
     private void resize() {
         size = 0;
-        HashElement[] newArray = new HashElement[array.length << 1];
-        HashElement[] oldArray = array;
+        HashElement<Key, Value>[] newArray = new HashElement[array.length << 1];
+        HashElement<Key, Value>[] oldArray = array;
         this.array = newArray;
-        for (HashElement hashElement : oldArray) {
+        for (HashElement<Key, Value> hashElement : oldArray) {
             if (hashElement == null)
                 continue;
             if (hashElement instanceof Bst) {
@@ -147,12 +149,12 @@ public class HashMapNode<Key, Value> implements HashTable<Key, Value> {
                 for (RedBlackBST<Key, Value>.BinarySearchTreeIterator bstIterator = bst.iterator();
                      bstIterator.hasNext(); ) {
                     RedBlackBST<Key, Value>.Node current = bstIterator.next();
-                    putIgnore(current.getKey(), current.getValue());
+                    putIgnoreLoadFactor(current.getKey(), current.getValue());
                 }
             } else {
                 Node<Key, Value> node = (Node<Key, Value>) hashElement;
                 do {
-                    putIgnore(node.getKey(), node.getValue());
+                    putIgnoreLoadFactor(node.getKey(), node.getValue());
                 } while ((node = node.getNext()) != null);
             }
         }

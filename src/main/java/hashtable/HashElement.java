@@ -1,5 +1,5 @@
 package hashtable;
 
-public interface HashElement {
+public interface HashElement<Key, Value> {
 
 }
